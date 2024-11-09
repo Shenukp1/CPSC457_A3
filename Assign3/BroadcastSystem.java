@@ -3,10 +3,7 @@ Name:Shenuk Perera
 UCID:30086618
 Name:
 UCID:
-Class purpose:to make all the DSM update the localMemory of all the processors from a single broadcast recived
-    1.recieves a broadcast from a process(that has a token) broadCastAgent
-    2.then takes that broadcast and send it back to all the broadCastAgents in the system,
-    to tell the DSM to modify all the local memory of the processors
+Class purpose:
 */
 
 import java.util.ArrayList;

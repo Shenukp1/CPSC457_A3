@@ -3,11 +3,7 @@ Name:Shenuk Perera
 UCID:30086618
 Name:
 UCID:
-Class purpose:to make a ring to pass the token around the token
-    1.will tell the tokenRingAgent if the tokenRing is active by maybe registering on it
-    
-    Things to figure out/test:
-        1. do i need run?
+Class purpose:
 */
 
 import java.util.ArrayList;

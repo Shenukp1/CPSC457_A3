@@ -3,16 +3,7 @@ Name:Shenuk Perera
 UCID:30086618
 Name:
 UCID:
-Class purpose: to constantly update local memory of processes it reciveves from broadcast messages
-
-    1. to update the the local memory of the process
-    2. to load from the local memory of the process
-    3. to broadcast A CHANGE(singular) to all the processors if the process has a token
-        a) does this by sending a broadcast to the BroadCastSystem
-            1. system takes the broadCastAgents of other processors and makes them store that data in those processors
-
-    Figure out:
-        1. do we need the process to be constantly loading and storing something? - YES, i think
+Class purpose:
 */
 
 public class DSM implements Runnable{

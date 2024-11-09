@@ -3,17 +3,7 @@ Name:Shenuk Perera
 UCID:30086618
 Name:
 UCID:
-Class purpose: to join all the threads
-    General Idea:
-        1. we have one TokenRing class for all the processors/dsms
-        2. we have one Broadcastsystem class for all the processor/dsm
-        3. we create as many processors and dsm equally as we need
-        4. dsm connect its broadcastAgent to the BroadcastSystem
-
-    TODO:
-        1. figure out how to do the general peterson algo for the processes
-            Idea:we have a array for the pyramid, and then we climb that with all the processes 
-        6.have to figure out how that tokenRingAgent class communicates with the broadcastAgent Class
+Class purpose: 
 */
 
 

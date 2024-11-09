@@ -3,13 +3,8 @@ Name:Shenuk Perera
 UCID:30086618
 Name:
 UCID:
-Class purpose: changing its own flag and constantly read the other processes flag
-    1.reads the other flags of the process to see if it CANNOT enter the critical section
+Class purpose: 
 
-
-
-Things to note:
-    1.we can use the id of the processor to determine which one made a change
 */
 
 import java.util.List;

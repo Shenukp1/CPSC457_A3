@@ -3,7 +3,7 @@ Name:Shenuk Perera
 UCID:30086618
 Name:
 UCID:
-Class purpose: To constantly broadcast
+Class purpose: 
 */
 
 
