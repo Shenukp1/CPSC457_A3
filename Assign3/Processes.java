@@ -69,7 +69,7 @@ public class Processes implements Runnable {
             
             
             while (checkAboveLevel(k) && dsm.load(k) == id) {
-                Thread.yield();
+                //Thread.yield();
                 //System.out.println("Processes: Processor " + id + " is stuck!"); 
             }
             
@@ -85,6 +85,7 @@ public class Processes implements Runnable {
     private boolean checkAboveLevel(int level) {
         level = level +1;
         for (int j = 0; j < n; j++) {
+            
             //System.out.println("Processes: ID: "+id);
             //System.out.println("Processes: Flag: "+flags[j]);
             if ((j != id) && (flags[j] >= level)) {// uh oh
