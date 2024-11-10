@@ -8,58 +8,42 @@ Class purpose:to make all the DSM update the localMemory of all the processors f
     2.then takes that broadcast and send it back to all the broadCastAgents in the system,
     to tell the DSM to modify all the local memory of the processors
 */
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class BroadcastSystem implements Runnable {
-    private List<BroadcastAgent> broadcastAgents;//list of all the broadCastAgents that are in the processors
+    private DSM dsm;
+    private List<BroadcastAgent> agents;
 
+    public BroadcastSystem(DSM dsm) {
+        this.dsm = dsm;
+        this.agents = new ArrayList<>();
+    }
 
-    //constructor which creates the array or the "network for the broadcast"
-    public BroadcastSystem(){
-        this.broadcastAgents = new ArrayList<>();
+    // Add a BroadcastAgent to the system
+    public void addBroadcastAgent(BroadcastAgent agent) {
+        agents.add(agent);
+    }
+
+    // Broadcast an update to all agents
+    public synchronized void broadcastUpdate(String key, int value) {
+        System.out.println("BroadcastSystem: Broadcasting update for " + key + " with value " + value);
+        for (BroadcastAgent a : agents) {
+            a.receiveUpdate(key, value); // Notify all agents
+        }
     }
 
     @Override
     public void run() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'run'");
-    }
-
-    public void broadcastUpdate(BroadcastAgent broadcaster, String variable, int value){
-
-        //need delay for receiving message on this side? or broadCastAgent side?
-
-        System.out.println("Broadcasting update: " + variable + " set to " + value);
-
-        //delay for sending messages
-        try{
-           Thread.sleep(1000);
-        }catch(InterruptedException e){
-            e.printStackTrace();
-        }
-
-        //now we send all the updates to the broadcastAgents
-        for(BroadcastAgent broadcastAgent : broadcastAgents){
-            //want to make sure we dont we dont send the broad
-            if(broadcastAgent !=broadcaster){
-                broadcastAgent.receive(variable, value);
+        while (true) {
+            for (BroadcastAgent agent : agents) {
+                agent.broadcast();
+            }
+            try {
+                Thread.sleep(100); // Simulate delay between broadcasts
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
         }
-        
-
-
     }
-
-    //A method to add the broadCastAgent to the BroadcastSystem
-    public void addBroadcastAgent(BroadcastAgent bca){
-        broadcastAgents.add(bca);
-
-    }
-
-    
-
-
-
 }
