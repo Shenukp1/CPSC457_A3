@@ -26,7 +26,7 @@ public class BroadcastSystem{
 
         //need delay for receiving message on this side? or broadCastAgent side?
 
-        System.out.println("Broadcasting updateing");
+        
 
         //delay for sending messages
         try{
@@ -40,6 +40,7 @@ public class BroadcastSystem{
             //want to make sure we dont we dont send the broad
             if(broadcastAgent !=broadcaster){
                 broadcastAgent.receive(store);
+                System.out.println("BroadcastSystem: Broadcasting updateing");
             }
         }
         
@@ -49,6 +50,7 @@ public class BroadcastSystem{
 
     //A method to add the broadCastAgent to the BroadcastSystem
     public void addBroadcastAgent(BroadcastAgent bca){
+        System.out.println("BroadcastSystem: added BroadcastAgent");
         broadcastAgents.add(bca);
 
     }

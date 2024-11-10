@@ -6,13 +6,15 @@ UCID:
 Class purpose: 
 */
 
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
 
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
 
         
@@ -21,11 +23,30 @@ public class Main {
         
         Processes[] processesArray = createDsmAndProcesses(numProccesses);//what creates the equal processor to dsms
 
+
+        List<Thread> processThreads = new ArrayList<>();
+        for (int i = 0; i < processesArray.length; i++) {
+            
+            Processes process = processesArray[i];
+
+            Thread p = new Thread(process);
+            
+            process.startDsmThread();
+            p.start();
+            processThreads.add(p);
+            
+            System.out.println("Main: Started everything!");
+            
+            
+            System.out.println("Main: Joined everything!");
+        }
+        
+
         for (int i = 0; i < processesArray.length; i++) {
             Processes process = processesArray[i];
-            new Thread(process).start();
-            
-            
+            process.joinDsmThread();
+            processThreads.get(i).join();
+            System.out.println("Main: Joined everything for process: " + i);
         }
         
         
@@ -36,23 +57,6 @@ public class Main {
        
     }
 
-
-
-
-
-
-    public static void critical(Processes p) {
-
-
-
-
-        System.out.println("Processes["+p.getID()+"] enters CS");
-        try {
-             Thread.sleep(1000);
-        }
-        catch (InterruptedException e) {}
-        System.out.println("Processes["+p.getID()+"] exits CS");
-    }
 
 
 
@@ -87,6 +91,7 @@ public class Main {
             processesArray[i] = new Processes(i,dsmArray[i],tokenRing,cs,flags,numProccesses);
         }
 
+        System.out.println("finished creating the process/dsm!");
         //then returning to access all the process 
         return processesArray;
     }

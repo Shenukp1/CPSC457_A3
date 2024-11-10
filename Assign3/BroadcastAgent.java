@@ -6,7 +6,9 @@ UCID:
 Class purpose: 
 */
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class BroadcastAgent implements Runnable{
 
@@ -14,8 +16,9 @@ public class BroadcastAgent implements Runnable{
     private BroadcastSystem broadcastSystem;//it has access to the BCS(broadCastSystem) that is put into
 
     private LocalMemory localMemory;
+
     
-    
+    private CopyOnWriteArrayList<Store> broadcast = new CopyOnWriteArrayList<>();
 
     
 
@@ -34,7 +37,24 @@ public class BroadcastAgent implements Runnable{
     public void run() {
 
         while(true){
+            
+            if(!broadcast.isEmpty()){//basically says that the broadcastSystem must relay it to all
+                System.out.println("BroadcastAgent: Sending message to DSM...");
+                System.out.println("BroadcastAgent: Broadcast size is now: " + broadcast.size());
+                for(int i = 0; i < broadcast.size(); i++) {
+                    dsm.addMessage(broadcast.get(i));
+                    
+                }
+                broadcast.clear();
+                
+            }
 
+            try {
+                Thread.sleep(100); // Adjust timing as needed
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        
         }
     
     }
@@ -44,7 +64,7 @@ public class BroadcastAgent implements Runnable{
      * Function used by DSM to update all proccess 
      */
     public void broadcast(Store store){
-
+        System.out.println("BroadcastAgent: broadcasting!");
 
         //random delay for sending a broadcast to the broadcastsystem
         try {
@@ -64,8 +84,8 @@ public class BroadcastAgent implements Runnable{
     
     public void receive(Store store) {
         if(store != null){
-            dsm.addMessage(store);
-            System.out.println("Broadcast is storing message");
+            broadcast.add(store);
+            
 
         }
         

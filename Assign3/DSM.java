@@ -18,6 +18,7 @@ public class DSM implements Runnable{
     private Store store; // store message
     private ArrayList<Store> messages = new ArrayList<>();
 
+    private Thread broadcastThread;
 
 
     //we want to create a broadcastagen and a local memory for the process
@@ -26,6 +27,7 @@ public class DSM implements Runnable{
         this.broadcastAgent = new BroadcastAgent(this,broadcastSystem,localMemory);
         this.broadcastSystem = broadcastSystem;
         this.store = store;
+        this.broadcastThread = new Thread(broadcastAgent);
         
  
     }
@@ -68,7 +70,16 @@ public class DSM implements Runnable{
         messages.add(store);
     }
 
-    
+    public void startBroadcastThread(){
+        broadcastThread.start();
+        
+    }
+
+    public void joinBroadcastThread() throws InterruptedException {
+        broadcastThread.join();
+    }
+
+  
 
 
 
