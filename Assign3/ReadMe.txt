@@ -21,6 +21,5 @@ JAVA FILES AND THERE PURPOSE:
     Processes:
         Thread purpose: passes the token around.
 
-    does tokenRing and tokenRingAgent have a thread?
-
+    
 

@@ -9,7 +9,7 @@ Class purpose:
 import java.util.ArrayList;
 import java.util.List;
 
-public class BroadcastSystem implements Runnable {
+public class BroadcastSystem{
 
     private List<BroadcastAgent> broadcastAgents;//list of all the broadCastAgents that are in the processors
 
@@ -20,16 +20,13 @@ public class BroadcastSystem implements Runnable {
         this.broadcastAgents = new ArrayList<>();
     }
 
-    @Override
-    public void run() {
-        
-    }
+   
 
-    public void broadcastUpdate(BroadcastAgent broadcaster, int variable, int value){
+    public void broadcastUpdate(BroadcastAgent broadcaster, Store store){
 
         //need delay for receiving message on this side? or broadCastAgent side?
 
-        System.out.println("Broadcasting update: " + variable + " set to " + value);
+        System.out.println("Broadcasting updateing");
 
         //delay for sending messages
         try{
@@ -42,7 +39,7 @@ public class BroadcastSystem implements Runnable {
         for(BroadcastAgent broadcastAgent : broadcastAgents){
             //want to make sure we dont we dont send the broad
             if(broadcastAgent !=broadcaster){
-                broadcastAgent.receive(variable, value);
+                broadcastAgent.receive(store);
             }
         }
         

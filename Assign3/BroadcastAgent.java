@@ -6,6 +6,7 @@ UCID:
 Class purpose: 
 */
 
+import java.util.HashMap;
 
 public class BroadcastAgent implements Runnable{
 
@@ -14,7 +15,7 @@ public class BroadcastAgent implements Runnable{
 
     private LocalMemory localMemory;
     
-    private int b_id;//TODO: use later to identify the broadcaster?
+    
 
     
 
@@ -25,7 +26,6 @@ public class BroadcastAgent implements Runnable{
         this.localMemory = localMemory;
         broadcastSystem.addBroadcastAgent(this);//the BroadCastAgent that was made now is apart of the BroadCastSystem
         
-        this.b_id = dsm.getProccesorID();//testing if i can access the ID of processor
     }
 
 
@@ -43,9 +43,8 @@ public class BroadcastAgent implements Runnable{
     /*
      * Function used by DSM to update all proccess 
      */
-    public void broadcast(int variable, int value){
+    public void broadcast(Store store){
 
-        System.out.println("BroadcastAgent of Proccesor:"+b_id+" Sending update for variable " + variable + " with value " + value);
 
         //random delay for sending a broadcast to the broadcastsystem
         try {
@@ -56,16 +55,21 @@ public class BroadcastAgent implements Runnable{
 
 
         //this - means that it take a ref of the one that sends it so we dont send it back to the same broadcaster
-        broadcastSystem.broadcastUpdate(this, variable, value);
+        broadcastSystem.broadcastUpdate(this, store);
     }
 
 
 
 
-    //Receive the broadcast and update local memory
-    public void receive(int variable, int value) {
-        System.out.println("BroadcastAgent: Received broadcast for variable " + variable + " with value " + value);
+    
+    public void receive(Store store) {
+        if(store != null){
+            dsm.addMessage(store);
+            System.out.println("Broadcast is storing message");
+
+        }
         
+       
     }
 
 

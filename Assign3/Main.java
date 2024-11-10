@@ -10,26 +10,25 @@ Class purpose:
 public class Main {
 
 
+
+
     public static void main(String[] args) {
 
 
-
-        //create the BroadcastSystem for all the dsms
-        BroadcastSystem broadcastSystem = new BroadcastSystem();
-
-
-        //create a TokenRing for all the proccessors
-        Token token = new Token(30086618);
-        TokenRing tokenRing = new TokenRing(token);
-
-        
-        //what creates the equal processor to dsms
-        Processes[] processesArray = createDsmAndProcesses(5,broadcastSystem,tokenRing);
-
-        
-        
         
 
+        int numProccesses = 5;//allows you to change how many processes are created
+        
+        Processes[] processesArray = createDsmAndProcesses(numProccesses);//what creates the equal processor to dsms
+
+        for (int i = 0; i < processesArray.length; i++) {
+            Processes process = processesArray[i];
+            new Thread(process).start();
+            
+            
+        }
+        
+        
 
 
 
@@ -41,14 +40,35 @@ public class Main {
 
 
 
+
+    public static void critical(Processes p) {
+
+
+
+
+        System.out.println("Processes["+p.getID()+"] enters CS");
+        try {
+             Thread.sleep(1000);
+        }
+        catch (InterruptedException e) {}
+        System.out.println("Processes["+p.getID()+"] exits CS");
+    }
+
+
+
      /*
         function create a dsm equal to the amount of processors/processes
         numEqual - number of processes you want to create
      */
-    public static Processes[] createDsmAndProcesses(int numProccesses, BroadcastSystem broadcastSystem, TokenRing tokenRing) {
+    public static Processes[] createDsmAndProcesses(int numProccesses) {
 
+        BroadcastSystem broadcastSystem = new BroadcastSystem();//create the BroadcastSystem for all the dsms
+        //create a TokenRing for all the proccessors
+        Token token = new Token(30086618);
+        TokenRing tokenRing = new TokenRing(token);
+
+        CriticalSection cs = new CriticalSection();
         
-
         int[] flags = new int[numProccesses];//create an array to hold the flags of processes created 
 
 
@@ -64,7 +84,7 @@ public class Main {
         //creating the processes and adding the dsms to them
         Processes[] processesArray = new Processes[numProccesses];
         for (int i = 0; i < numProccesses; i++) {
-            processesArray[i] = new Processes(i, dsmArray[i], tokenRing,flags,numProccesses);
+            processesArray[i] = new Processes(i,dsmArray[i],tokenRing,cs,flags,numProccesses);
         }
 
         //then returning to access all the process 
