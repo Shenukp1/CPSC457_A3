@@ -40,7 +40,7 @@ public class BroadcastSystem{
             //want to make sure we dont we dont send the broad
             if(broadcastAgent !=broadcaster){
                 broadcastAgent.receive(store);
-                System.out.println("BroadcastSystem: Broadcasting updateing");
+                //System.out.println("BroadcastSystem: Broadcasting updateing");
             }
         }
         

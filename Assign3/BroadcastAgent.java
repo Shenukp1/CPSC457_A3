@@ -18,7 +18,7 @@ public class BroadcastAgent implements Runnable{
     private LocalMemory localMemory;
 
     
-    private CopyOnWriteArrayList<Store> broadcast = new CopyOnWriteArrayList<>();
+    private ArrayList<Store> broadcast = new ArrayList<>();
 
     
 
@@ -39,8 +39,8 @@ public class BroadcastAgent implements Runnable{
         while(true){
             
             if(!broadcast.isEmpty()){//basically says that the broadcastSystem must relay it to all
-                System.out.println("BroadcastAgent: Sending message to DSM...");
-                System.out.println("BroadcastAgent: Broadcast size is now: " + broadcast.size());
+                //System.out.println("BroadcastAgent: Sending message to DSM...");
+                //System.out.println("BroadcastAgent: Broadcast size is now: " + broadcast.size());
                 for(int i = 0; i < broadcast.size(); i++) {
                     dsm.addMessage(broadcast.get(i));
                     
@@ -64,7 +64,7 @@ public class BroadcastAgent implements Runnable{
      * Function used by DSM to update all proccess 
      */
     public void broadcast(Store store){
-        System.out.println("BroadcastAgent: broadcasting!");
+        //System.out.println("BroadcastAgent: broadcasting!");
 
         //random delay for sending a broadcast to the broadcastsystem
         try {

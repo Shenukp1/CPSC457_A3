@@ -47,17 +47,17 @@ public class Processes implements Runnable {
      */
     @Override
     public void run() {
-        for (int i = 0; i < 3; i++) { 
-            System.out.println("Processor " + id + " works");
+        for (int i = 0; i < 10; i++) { 
+            
             iWantToEnterCS();
-            System.out.println("Processor " + id + " is in CS.");
+            
             try {
                 Thread.sleep(100); 
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
             exitCS();
-            System.out.println("Processor " + id + " has left CS.");
+            
         }
     }
 
@@ -66,13 +66,13 @@ public class Processes implements Runnable {
         for (int k = 0; k < n - 1; k++) {
             flags[id] = k; //flag[i] = k, says process id want to enter CS at level k
             dsm.store(k, id); // turn[k] = i, says that it is id turn at level k 
-            System.out.println("Processes: we have done storing!");
+            
             
             while (checkAboveLevel(k) && dsm.load(k) == id) {
                 Thread.yield();
                 //System.out.println("Processes: Processor " + id + " is stuck!"); 
             }
-            System.out.println("Processes: Freedom for "+ id);
+            
         }
         cs.enter(id); 
     }
@@ -83,16 +83,17 @@ public class Processes implements Runnable {
     }
 
     private boolean checkAboveLevel(int level) {
+        level = level +1;
         for (int j = 0; j < n; j++) {
-            System.out.println("Processes: ID: "+id);
-            System.out.println("Processes: Flag: "+flags[j]);
-            if ((j != id) && (flags[j] > level)) {
+            //System.out.println("Processes: ID: "+id);
+            //System.out.println("Processes: Flag: "+flags[j]);
+            if ((j != id) && (flags[j] >= level)) {// uh oh
 
-                System.out.println("Processes: id: " + id + " j: "+j);
+                //System.out.println("Processes: id: " + id + " j: "+j);
                 return true;
             }
         }
-        System.out.println("Processes: Processor " + id + " level <");
+        
         return false;
     }
 
