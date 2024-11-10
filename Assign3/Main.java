@@ -27,6 +27,11 @@ public class Main {
         Processes[] processesArray = createDsmAndProcesses(5,broadcastSystem,tokenRing);
 
         
+        
+        
+
+
+
 
 
        
@@ -39,29 +44,27 @@ public class Main {
      /*
         function create a dsm equal to the amount of processors/processes
         numEqual - number of processes you want to create
-
-        TODO:ajust for tokens
      */
-    public static Processes[] createDsmAndProcesses(int equalPtoD, BroadcastSystem broadcastSystem, TokenRing tokenRing) {
+    public static Processes[] createDsmAndProcesses(int numProccesses, BroadcastSystem broadcastSystem, TokenRing tokenRing) {
 
         
 
-        int[] flags = new int[equalPtoD];//create an array to hold the flags of processes created 
+        int[] flags = new int[numProccesses];//create an array to hold the flags of processes created 
 
 
         //assuming every processor is made in order of 0 to n-1
-        for(int i=0;i<equalPtoD;i++){
+        for(int i=0;i<numProccesses;i++){
             flags[i]= -1;//every flag starts as false
         }
-        DSM[] dsmArray = new DSM[equalPtoD];//dsm being created
-        for (int i = 0; i < equalPtoD; i++) {
+        DSM[] dsmArray = new DSM[numProccesses];//dsm being created
+        for (int i = 0; i < numProccesses; i++) {
             dsmArray[i] = new DSM(broadcastSystem);//creating a dsm with the same broadcastSystem 
         }
 
         //creating the processes and adding the dsms to them
-        Processes[] processesArray = new Processes[equalPtoD];
-        for (int i = 0; i < equalPtoD; i++) {
-            processesArray[i] = new Processes(i, dsmArray[i], tokenRing,flags);
+        Processes[] processesArray = new Processes[numProccesses];
+        for (int i = 0; i < numProccesses; i++) {
+            processesArray[i] = new Processes(i, dsmArray[i], tokenRing,flags,numProccesses);
         }
 
         //then returning to access all the process 

@@ -18,44 +18,41 @@ public class Processes implements Runnable {
     private TokenRing tokenRing;
     private TokenRingAgent tokenRingAgent;
 
-    //contians the flags
-    private boolean[] flags;
+    
+    private int[] flags;//contians the flags it self and others
 
-    public Processes(int id,DSM dsm, TokenRing tokenRing, int[] flags){
+    private int[] turn; // only can check its own turn
+
+    private int n; //each process will know how many processes are created
+
+    public Processes(int id,DSM dsm, TokenRing tokenRing, int[] flags, int n){
         this.id = id;
         this.dsm = dsm;
         this.tokenRing = tokenRing;
+        this.n = n;
+        this.flags = flags;
 
-        //creating a tokenRingAgent
-        tokenRingAgent = new TokenRingAgent(tokenRing);
+        this.turn = new int[n-2];//turn for each level
+        
+        tokenRingAgent = new TokenRingAgent(tokenRing);//creating a tokenRingAgent
 
-        //dsm now has the id of the processor
-        dsm.setProcessorID(id);
+        
+        dsm.setProcessorID(id);//dsm now has the id of the processor
 
     }
 
 
     /*
-    What this Thread does:
-        1.Sets it own flag true to indicate it wants to enter CS
-        2. write turn
+     * What does this thread do:
+     *  1. waits for the token
+     *  2. send a dsm operation(turn var change?)
+     *  3. releases the token
      */
     @Override
     public void run(){
 
-        System.out.println("Processor " + id + " is running.");
-
-       
-        
-        
-        //RACE CONDITION
-        while(true){
-            
-         
-
-        }
     }
-  
+    
 
 
 

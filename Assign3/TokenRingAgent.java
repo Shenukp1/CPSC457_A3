@@ -57,7 +57,9 @@ public class TokenRingAgent implements Runnable {
 
     }
 
-    public void sendToken(Token t)
+    public void sendToken(Token t){
+        
+    }
 
 
 

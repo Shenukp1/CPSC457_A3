@@ -10,21 +10,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BroadcastSystem implements Runnable {
+
     private List<BroadcastAgent> broadcastAgents;//list of all the broadCastAgents that are in the processors
 
 
     //constructor which creates the array or the "network for the broadcast"
     public BroadcastSystem(){
+
         this.broadcastAgents = new ArrayList<>();
     }
 
     @Override
     public void run() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'run'");
+        
     }
 
-    public void broadcastUpdate(BroadcastAgent broadcaster, String variable, int value){
+    public void broadcastUpdate(BroadcastAgent broadcaster, int variable, int value){
 
         //need delay for receiving message on this side? or broadCastAgent side?
 
