@@ -86,7 +86,7 @@ public class Processes implements Runnable {
         for (int j = 0; j < n; j++) {
             System.out.println("Processes: ID: "+id);
             System.out.println("Processes: Flag: "+flags[j]);
-            if ((j != id) && (flags[j] >= level)) {
+            if ((j != id) && (flags[j] > level)) {
 
                 System.out.println("Processes: id: " + id + " j: "+j);
                 return true;
