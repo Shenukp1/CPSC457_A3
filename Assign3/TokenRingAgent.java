@@ -1,59 +1,63 @@
 public class TokenRingAgent implements Runnable {
+    private int id;
+    private TokenRing tokenRing;
+    private TokenDSM tokenDSM;
+    private boolean hasToken;
+    private boolean isDone;
 
-    private int t_id;// unique identifier for the token
-
-
-    /*
-    false means the agent is not on the ring
-    TODO:check if this is true ^
-    */
-    private boolean active = false;
-
-    /*
-    creating a reference to possibly use it more than once
-        - having multiple token rings at once
-    */
-    TokenRing tokenRing; 
-
-    private int p_id;//processes id
-
-    private int pp_id; //processes predecssor(tokenRingAgent) id 
-
-    private int ps_id; //processes succesor id
-
-
-    private int token_id;//id of the token
-
-
-    //the constructor
-    public TokenRingAgent(TokenRing tokenRing){
+    public TokenRingAgent(int id, TokenRing tokenRing, TokenDSM tokenDSM) {
+        this.id = id;
         this.tokenRing = tokenRing;
-
+        this.tokenDSM = tokenDSM;
+        this.hasToken = false;
+        this.isDone = false;
     }
 
-    //get the id of the process on the ring
-    public int getPID(){
-        if
+    public int getId() {
+        return id;
+    }
 
+    // Method to receive the token
+    public synchronized void receiveToken() {
+        this.hasToken = true;
+        notify();  // Wake up the thread to enter the critical section
+    }
+
+    // Method to pass the token to the next agent
+    public synchronized void passTokenToSuccessor() {
+        this.hasToken = false;
+        tokenRing.passTokenToNextAgent();  // Pass the token to the next agent in the ring
+        notifyAll();  // Notify all waiting agents (threads) that the token has been passed
+    }
+
+    public boolean hasToken() {
+        return hasToken;
     }
 
     @Override
-    public void run(){
-        //RACE CONDITION
-        while(true){
+    public void run() {
+        while (!isDone) {
+            // Wait for the token
+            synchronized (this) {
+                while (!hasToken) {
+                    try {
+                        wait();  // Wait until the token is received
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+            }
 
+            // Enter the critical section
+            System.out.println("Processor " + id + " has the token and is entering the critical section.");
+            tokenDSM.store("var" + id, "value" + id, this);  // Pass the current agent to the store method
+
+            // Exit the critical section
+            System.out.println("Processor " + id + " is exiting the critical section.");
+            isDone = true;
+
+            // Pass the token to the next agent in the ring
+            passTokenToSuccessor();
         }
     }
-
-    public void int recieveToken(){
-
-    }
-
-    public void sendToken(Token t){
-		
-	}
-
-
-
-
 }
