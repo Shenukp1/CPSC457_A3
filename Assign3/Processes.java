@@ -26,6 +26,8 @@ public class Processes implements Runnable {
     private CriticalSection cs;
 
     private Thread dsmThread;
+
+    private TokenRingAgent tokenRingAgent;
     
 
     public Processes(int id,DSM dsm, TokenRing tokenRing, CriticalSection cs, int[] flags, int n){
@@ -35,8 +37,8 @@ public class Processes implements Runnable {
         this.flags = flags;
         this.n = n;// number of processes there are
         this.cs = cs;
-        
-
+        this.tokenRingAgent = new TokenRingAgent(tokenRing, id, n);
+        dsm.addTAgent(tokenRingAgent);
 
     }
 

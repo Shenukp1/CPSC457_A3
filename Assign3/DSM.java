@@ -19,6 +19,7 @@ public class DSM implements Runnable{
     private ArrayList<Store> messages = new ArrayList<>();
 
     private Thread broadcastThread;
+    private TokenRingAgent tAgent;
 
 
     //we want to create a broadcastagen and a local memory for the process
@@ -30,6 +31,10 @@ public class DSM implements Runnable{
         this.broadcastThread = new Thread(broadcastAgent);
         
  
+    }
+
+    public void addTAgent(TokenRingAgent tokenRingAgent){
+        tAgent = tokenRingAgent;
     }
 
 
@@ -61,9 +66,9 @@ public class DSM implements Runnable{
 
     //sends a store request to the broadcastSystem
     public synchronized void store(int variable, int value){
-        broadcastAgent.broadcast(new Store(variable, value));
+        while(!tAgent.tAgentHasToken() && tAgent.getActivity()){}
         localMemory.store(variable,value);
-
+        broadcastAgent.broadcast(new Store(variable, value));
     }
 
     public void addMessage(Store store){

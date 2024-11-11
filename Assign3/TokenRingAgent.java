@@ -8,42 +8,43 @@ Class purpose:
 
 public class TokenRingAgent implements Runnable {
 
-    private int t_id;// unique identifier for the token
+    
 
 
-    /*
-    false means the agent is not on the ring
-    TODO:check if this is true ^
-    */
     private boolean active = false;
-
-    /*
-    creating a reference to possibly use it more than once
-        - having multiple token rings at once
-    */
-    TokenRing tokenRing; 
-
-    private int p_id;//processes id
-
-    private int pp_id; //processes predecssor(tokenRingAgent) id 
-
-    private int ps_id; //processes succesor id
+    private boolean hasToken = false;
+    private int tokenId = -1;
+    
+    private TokenRing tokenRing; 
 
 
-    private int token_id;//id of the token
+    private int tAgent_id;
+    private int numAgent;
 
 
     //the constructor
-    public TokenRingAgent(TokenRing tokenRing){
+    public TokenRingAgent(TokenRing tokenRing, int id, int numProccesses){
+        this.tAgent_id = id;
+        this.numAgent = numProccesses;
         this.tokenRing = tokenRing;
+        tokenRing.registerAgent(this);
+        
 
     }
 
-    //get the id of the process on the ring
-    public int getPID(){
-        if
-
+    public boolean getActivity(){
+        return active;
     }
+    
+
+    public void isActive(){//says the agent is active on the ring
+        active = true;
+    }
+
+    public boolean tAgentHasToken(){
+        return hasToken;
+    }
+
 
     @Override
     public void run(){
@@ -53,12 +54,37 @@ public class TokenRingAgent implements Runnable {
         }
     }
 
-    public void int recieveToken(){
 
+    public int getCurrentId(){// returns the current id of agent
+        return tAgent_id;
     }
 
-    public void sendToken(Token t){
+    public int getRingPredecessor(){//returns the index of the previous agent
         
+        if(tAgent_id == 0){
+            int ringPredecessor = numAgent - 1;
+            return ringPredecessor;
+
+        } else{
+            return tAgent_id - 1;
+        }
+        
+    }
+
+    public int getRingSuccesor(){//returns the index of the next agent
+        int ringSuccessor = (tAgent_id + 1) % numAgent;
+        return ringSuccessor;
+    }
+
+    public synchronized int recieveToken(Token t){
+        hasToken = true;
+        return tokenId = t.getId();
+    }
+
+    public synchronized void sendToken(Token t){
+        hasToken =false;
+        tokenId = -1;
+        tokenRing.passToken(t, getRingSuccesor());
     }
 
 
